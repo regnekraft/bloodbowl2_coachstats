@@ -25,140 +25,56 @@ class Match_model:
         self.own_tds = HomeInflictedTouchdowns if self.home_coach else AwayInflictedTouchdowns
         self.opp_tds = AwayInflictedTouchdowns if not self.home_coach else HomeInflictedTouchdowns
 
-            
-
 
     def set_ball_data(self, HomeOccupationOwn, HomeOccupationTheir, HomePossessionBall, 
-                    AwayOccupationOwn, AwayOccupationTheir, AwayPossessionBall,
-                    HomeInflictedPasses, HomeInflictedCatches, AwayInflictedPasses, AwayInflictedCatches, 
-                    HomeInflictedMetersPassing, AwayInflictedMetersPassing, HomeInflictedInterceptions, 
-                    AwayInflictedInterceptions, HomeInflictedMetersRunning, AwayInflictedMetersRunning):
-        x= 1
+                    AwayOccupationOwn, AwayOccupationTheir, AwayPossessionBall, HomeInflictedPasses,
+                    AwayInflictedPasses, HomeInflictedMetersPassing, AwayInflictedMetersPassing, 
+                    HomeInflictedInterceptions, AwayInflictedInterceptions, HomeInflictedMetersRunning,
+                    AwayInflictedMetersRunning):
+        # the game can regrister HomeInflictedPasses + HomeInflictedCatches and AwayInflictedPasses + AwayInflictedCatches
+        # but they will always be the same number for some reason, so incomplete passes and handoffs aren't regristered.
+        
+        self.own_occupation_own = HomeOccupationOwn if self.home_coach else AwayOccupationOwn
+        self.opp_occupation_own = AwayOccupationOwn if not self.home_coach else HomeOccupationOwn
+        self.own_occupation_their = HomeOccupationTheir if self.home_coach else AwayOccupationTheir
+        self.opp_occupation_their = AwayOccupationTheir if not self.home_coach else HomeOccupationTheir
+        self.own_ball_possession = HomePossessionBall if self.home_coach else AwayInflictedPasses
+        self.opp_ball_possession = AwayPossessionBall if not self.home_coach else HomePossessionBall
+        self.own_pass_attempts = HomeInflictedPasses if self.home_coach else AwayInflictedPasses
+        self.opp_pass_attempts = AwayInflictedPasses if not self.home_coach else HomeInflictedPasses
+        self.own_passing_meters = HomeInflictedMetersPassing if self.home_coach else AwayInflictedInterceptions
+        self.opp_passing_meters = AwayInflictedMetersPassing if not self.home_coach else HomeInflictedMetersPassing
+        self.own_interceptions = HomeInflictedInterceptions if self.home_coach else AwayInflictedInterceptions
+        self.opp_interceptions = AwayInflictedInterceptions if not self.home_coach else HomeInflictedInterceptions
+        self.own_running_meters = HomeInflictedMetersRunning if self.home_coach else AwayInflictedMetersRunning
+        self.opp_running_meters = AwayInflictedMetersRunning if not self.home_coach else HomeInflictedMetersRunning
+        
 
-    def set_injury_data(self, HomeInflictedKO, AwaySustainedKO, AwayInflictedKO, HomeSustainedKO,
-                        HomeInflictedInjuries, AwaySustainedInjuries, AwayInflictedInjuries, HomeSustainedInjuries,
-                        HomeInflictedCasualties, AwaySustainedCasualties, AwayInflictedCasualties, HomeSustainedCasualties,
-                        HomeInflictedDead, AwaySustainedDead, AwayInflictedDead, HomeSustainedDead):
-        x = 1
+    def set_injury_data(self, HomeInflictedKO, AwaySustainedKO, HomeSustainedKO, AwayInflictedKO,
+                        HomeInflictedInjuries, AwayInflictedInjuries, HomeSustainedInjuries, AwaySustainedInjuries,
+                        HomeInflictedCasualties, AwayInflictedCasualties, HomeSustainedCasualties, AwaySustainedCasualties,
+                        HomeInflictedDead, AwayInflictedDead, HomeSustainedDead, AwaySustainedDead):
+        self.own_ko_caused = HomeInflictedKO if self.home_coach else AwayInflictedKO
+        self.opp_ko_caused = AwayInflictedKO if not self.home_coach else HomeInflictedKO
+        self.own_ko_sustained = HomeSustainedKO if self.home_coach else AwaySustainedKO
+        self.opp_ko_sustained = AwaySustainedKO if not self.home_coach else HomeSustainedKO
+        self.own_injuries_caused = HomeInflictedInjuries if self.home_coach else AwayInflictedInjuries
+        self.opp_injuries_caused = AwayInflictedInjuries if not self.home_coach else HomeInflictedInjuries
+        self.own_injuries_sustained = HomeSustainedInjuries if self.home_coach else AwaySustainedInjuries
+        self.opp_injuries_sustained = AwaySustainedInjuries if not self.home_coach else HomeSustainedInjuries
+        self.own_casualties_caused = HomeInflictedCasualties if self.home_coach else AwayInflictedCasualties
+        self.opp_casualties_caused = AwayInflictedCasualties if not self.home_coach else HomeInflictedCasualties
+        self.own_casualties_sustained = HomeSustainedCasualties if self.home_coach else AwaySustainedCasualties
+        self.opp_casualties_sustained = AwaySustainedCasualties if not self.home_coach else HomeSustainedCasualties
+        self.own_murders_caused = HomeInflictedDead if self.home_coach else AwayInflictedDead
+        self.opp_murders_caused = AwayInflictedDead if not self.home_coach else HomeInflictedDead
+        self.own_deaths_sustained =HomeSustainedDead if self.home_coach else AwaySustainedDead
+        self.opp_deaths_sustained = AwaySustainedDead if not self.home_coach else HomeSustainedDead
 
     def set_surfing_beach_boy_data(self, HomeInflictedPushOuts, AwayInflictedPushOuts):
-        x = 1
+        self.own_surfs = HomeInflictedPushOuts if self.home_coach else AwayInflictedPushOuts
+        self.opp_surfs = AwayInflictedPushOuts if not self.home_coach else HomeInflictedPushOuts
 
-
-    def print(self):
-        print(self.home_coach, self.own_race)
-
-
-        '''
-        1 = Human
-        2 = dwarf
-        3 = Skaven
-        4 = Orc
-        5 = Lizardmen
-        6 = Goblin
-        7 = Wood Elf
-        8 = chaos
-        9 = Dark Elf
-        10 = Undead
-        11 = Halfling
-        12 = norse
-        13 = Amazon
-        14 = Elven Union
-        15 = High Elf
-        16 = khemri
-        17 = necromantic
-        18 = nurgle
-        19 = Ogre
-        20 = Vampire
-        21 = Chaos Dwarf
-        22 = Underworld
-        23 = ?
-        24 = Bretonia
-        25 = Kislev
-        '''
-'''
-            <LeagueName>Kartoffelbowl</LeagueName>
-            <CompetitionName>Den Moste XIV T4</CompetitionName>
-
-            <IdCoachHomeCompletionStatus>0</IdCoachHomeCompletionStatus>
-            <IdCoachAwayCompletionStatus>0</IdCoachAwayCompletionStatus>
-            
-
-            <CoachHomeName>CBraw</CoachHomeName>
-            <CoachAwayName>Usnugnu</CoachAwayName>
-
-            <IdRacesAway>16</IdRacesAway>
-            <IdRacesHome>10</IdRacesHome>
-            <HomeValue>1000</HomeValue>
-            <AwayValue>1000</AwayValue>
-
-
-            # score
-            <HomeScore>1</HomeScore>
-            <AwayScore>0</AwayScore>
-            <HomeInflictedTouchdowns>1</HomeInflictedTouchdowns>
-            <AwayInflictedTouchdowns>0</AwayInflictedTouchdowns>
-
-            # bold hold
-            <HomeOccupationOwn>25</HomeOccupationOwn>
-            <HomePossessionBall>43</HomePossessionBall>
-            <AwayOccupationOwn>37</AwayOccupationOwn>
-            <HomeOccupationTheir>18</HomeOccupationTheir>
-            <AwayPossessionBall>37</AwayPossessionBall>
-            <AwayOccupationTheir>0</AwayOccupationTheir>
-
-            # passing
-            <AwayInflictedPasses>0</AwayInflictedPasses>
-            <AwayInflictedCatches>0</AwayInflictedCatches>
-
-            <HomeInflictedPasses>0</HomeInflictedPasses>
-            <HomeInflictedCatches>0</HomeInflictedCatches>
-
-            <HomeInflictedMetersPassing>0</HomeInflictedMetersPassing>
-            <AwayInflictedMetersPassing>0</AwayInflictedMetersPassing>
-            <AwayInflictedInterceptions>0</AwayInflictedInterceptions>
-            <HomeInflictedInterceptions>0</HomeInflictedInterceptions>
-
-            # running
-            <HomeInflictedMetersRunning>54</HomeInflictedMetersRunning>
-            <AwayInflictedMetersRunning>16</AwayInflictedMetersRunning>
-
-            # skader
-            <HomeInflictedKO>3</HomeInflictedKO>
-            <AwaySustainedKO>3</AwaySustainedKO>
-            <AwayInflictedKO>0</AwayInflictedKO>
-            <HomeSustainedKO>0</HomeSustainedKO>
-            
-            <HomeInflictedInjuries>11</HomeInflictedInjuries>
-            <AwaySustainedInjuries>13</AwaySustainedInjuries>
-            <AwayInflictedInjuries>10</AwayInflictedInjuries>
-            <HomeSustainedInjuries>10</HomeSustainedInjuries>
-
-            <HomeInflictedCasualties>0</HomeInflictedCasualties>
-            <AwaySustainedCasualties>1</AwaySustainedCasualties>
-            <AwayInflictedCasualties>3</AwayInflictedCasualties>
-            <HomeSustainedCasualties>3</HomeSustainedCasualties>
-
-            <HomeInflictedDead>0</HomeInflictedDead>
-            <AwaySustainedDead>0</AwaySustainedDead>
-            <AwayInflictedDead>0</AwayInflictedDead>
-            <HomeSustainedDead>0</HomeSustainedDead>
-            
-
-            # beach boys
-            <HomeInflictedPushOuts>1</HomeInflictedPushOuts>
-            <AwayInflictedPushOuts>0</AwayInflictedPushOuts>
-            <AwaySustainedExpulsions>1</AwaySustainedExpulsions>
-            <HomeSustainedExpulsions>0</HomeSustainedExpulsions>
-
-
-            <HomeInflictedTackles>49</HomeInflictedTackles>
-            <AwayInflictedTackles>44</AwayInflictedTackles>
-            <AwayWinningsDice>1</AwayWinningsDice>
-            <HomeWinningsDice>3</HomeWinningsDice>
-            
-
-'''
 
 
 
