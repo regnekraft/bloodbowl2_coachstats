@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from source.match_model import Match_model
+from source.models.match_model import Match_model
 
 class XML_reader_sevice:
     def __init__(self, xmlpath, coach_name):
