@@ -1,3 +1,6 @@
+from typing import Match
+
+
 class Match_model:
     def __init__(self, coach_name, CoachHomeName, LeagueName, CompetitionName):
         
@@ -14,8 +17,6 @@ class Match_model:
     def set_overall_data(self, IdCoachHomeCompletionStatus, IdCoachAwayCompletionStatus,
                         IdRacesHome, IdRacesAway, HomeValue, AwayValue, HomeScore, 
                         AwayScore, HomeInflictedTouchdowns, AwayInflictedTouchdowns):
-        self.own_conceed = IdCoachHomeCompletionStatus in ['true', 'True', 1] if self.home_coach else IdCoachAwayCompletionStatus in ['true', 'True', 1]
-        self.opp_conceeded = IdCoachAwayCompletionStatus in ['true', 'True', 1] if not self.home_coach else IdCoachHomeCompletionStatus in ['true', 'True', 1] 
         self.own_race = self.races[IdRacesHome] if self.home_coach else self.races[IdRacesAway]
         self.opp_race = self.races[IdRacesAway] if not self.home_coach else self.races[IdRacesHome]
         self.own_tv = HomeValue if self.home_coach else AwayValue
@@ -24,7 +25,30 @@ class Match_model:
         self.opp_score = AwayScore if not self.home_coach else HomeScore
         self.own_tds = HomeInflictedTouchdowns if self.home_coach else AwayInflictedTouchdowns
         self.opp_tds = AwayInflictedTouchdowns if not self.home_coach else HomeInflictedTouchdowns
+        self.result = Match_model.set_result(self, HomeScore, AwayScore)
+        Match_model.set_conceed_status(self, int(IdCoachHomeCompletionStatus), int(IdCoachAwayCompletionStatus))
+        
 
+    def set_result(self, HomeScore, AwayScore):
+        if HomeScore > AwayScore:
+            return 'Won'
+        elif HomeScore < AwayScore:
+            return 'Lost'
+        else:
+            return 'Draw'
+
+    def set_conceed_status(self, IdCoachHomeCompletionStatus, IdCoachAwayCompletionStatus):
+        if IdCoachAwayCompletionStatus == 0 and IdCoachHomeCompletionStatus == 0:
+            self.own_conceed = 0
+            self.opp_conceeded = 0
+        else:
+            if self.home_coach:
+                self.own_conceed = 0 if IdCoachHomeCompletionStatus == 0 else 1
+                self.opp_conceeded = 0 if IdCoachAwayCompletionStatus == 0 else 1
+            else:
+                self.opp_conceeded = 0 if IdCoachHomeCompletionStatus == 0 else 1
+                self.own_conceed = 0 if IdCoachAwayCompletionStatus == 0 else 1
+        
 
     def set_ball_data(self, HomeOccupationOwn, HomeOccupationTheir, HomePossessionBall, 
                     AwayOccupationOwn, AwayOccupationTheir, AwayPossessionBall, HomeInflictedPasses,
@@ -74,8 +98,4 @@ class Match_model:
     def set_surfing_beach_boy_data(self, HomeInflictedPushOuts, AwayInflictedPushOuts):
         self.own_surfs = HomeInflictedPushOuts if self.home_coach else AwayInflictedPushOuts
         self.opp_surfs = AwayInflictedPushOuts if not self.home_coach else HomeInflictedPushOuts
-
-
-
-
 

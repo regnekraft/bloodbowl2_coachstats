@@ -1,5 +1,8 @@
 
 class Stats_service:
 
-    def get_coach_stats_per_race(self):
-        x=1
+    def Get_overall_stats(self, matches):
+        
+
+        for match in matches:
+            x = 1

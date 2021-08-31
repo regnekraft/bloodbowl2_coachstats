@@ -1,19 +1,20 @@
 import xml.etree.ElementTree as ET
+import pandas as pd
 from source.models.match_model import Match_model
+from source.models.coach_model import Coach_model
 
-class XML_reader_sevice:
+class Replay_reader:
     def __init__(self, xmlpath, coach_name):
         self.tree = ET.parse(xmlpath)
         self.root = self.tree.getroot()
         self.coach_name = coach_name
 
-    def get_matches_from_coach_xml(self):
+    def get_coach_object_from_coach_xml(self):
         '''
         '''
         # gets <matches> from the ElementTree that has the root of <ReplayIndex.xml>
         xml_matches = self.root.find('Matches').getchildren()
-        #print(len(xml_matches))
-        matches = []
+        coach = Coach_model()
         for match in xml_matches:
             # If the match was not played for some reason, it is likely the data is incomplete.
             if match.find('Played').text in ['false', 'False', '0', 0]:
@@ -42,6 +43,11 @@ class XML_reader_sevice:
                             match.find('AwaySustainedDead').text)
 
             mm.set_surfing_beach_boy_data(match.find('HomeInflictedPushOuts').text, match.find('AwayInflictedPushOuts').text)
-            matches.append(mm)
-        #print(len(matches))
-        return matches
+            coach.add_match(mm.own_race, mm)
+        coach.print_top_stats()
+        return coach
+
+    def panda_magic(self, matches):
+        print(len(matches))
+        alt = pd.DataFrame(matches)
+        print(alt.head())
