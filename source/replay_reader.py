@@ -43,8 +43,8 @@ class Replay_reader:
                             match.find('AwaySustainedDead').text)
 
             mm.set_surfing_beach_boy_data(match.find('HomeInflictedPushOuts').text, match.find('AwayInflictedPushOuts').text)
-            coach.add_match(mm.own_race, mm)
-        coach.print_top_stats()
+            coach.add_match(mm.race, mm)
+        #coach.print_top_stats()
         return coach
 
     def panda_magic(self, matches):
