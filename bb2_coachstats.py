@@ -14,6 +14,6 @@ coach_name = os.environ.get('coach_name')
 
 rr = Replay_reader()
 matches = rr.get_matches_from_coach_xml(xml_path, coach_name)
-for m in matches:
-    print(m.race, m.opponent_race, m.td_plus, m.td_minus, m.cas_plus, m.cas_minus)
-#rr.panda_magic(matches)
+#for m in matches:
+#    print(m.race, m.opponent_race, m.td_plus, m.td_minus, m.cas_plus, m.cas_minus)
+rr.panda_magic(matches)

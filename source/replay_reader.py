@@ -71,5 +71,7 @@ class Replay_reader:
 
     def panda_magic(self, matches):
         print(len(matches))
-        alt = pd.DataFrame(matches)
-        print(alt.head())
+        alt = pd.DataFrame([m.as_dict() for m in matches])
+        alt['res'] = alt['td_plus'] - alt['td_minus']
+        alt2 = alt.groupby(['race', 'opponent_race'])
+        print(alt2.head())
