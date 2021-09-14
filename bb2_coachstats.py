@@ -12,9 +12,8 @@ xml_path = os.environ.get('xml_path')
 csv_directory = os.environ.get('csv_directory')
 coach_name = os.environ.get('coach_name')
 
-rr = Replay_reader(xml_path, coach_name)
-coach = rr.get_coach_object_from_coach_xml()
+rr = Replay_reader()
+matches = rr.get_matches_from_coach_xml(xml_path, coach_name)
+for m in matches:
+    print(m.race, m.opponent_race, m.td_plus, m.td_minus, m.cas_plus, m.cas_minus)
 #rr.panda_magic(matches)
-
-ss = Stats_service()
-ss.Get_overall_stats(coach)
